@@ -1,0 +1,201 @@
+# vi: ft=sh
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# make vim the default editor
+if command -v nvim > /dev/null; then
+    export EDITOR='nvim'
+    export VISUAL='nvim'
+else
+    export EDITOR='vim'
+    export VISUAL='vim'
+fi
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=
+HISTFILESIZE=
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# Disable legacy scroll locking
+stty -ixon
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# base16-shell colour themes
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# Colour Prompt
+PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+# some more ls aliases
+alias ll='ls -alhF'
+alias la='ls -A'
+alias l='ls -CF'
+alias lss='ls -sh'
+
+# Pretty print the path
+alias path='echo $PATH | tr -s ":" "\n"'
+
+alias mkdir="mkdir -p"
+alias e="$EDITOR"
+alias v="$VISUAL"
+
+# alias f='fuck'
+# alias F='fuck --yeah'
+# alias FUCK='fuck --yeah'
+# alias duck='fuck'
+# alias mist='fuck'
+
+# Add an "alert" alias for long running commands.  Use like so:
+#   sleep 10; alert
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
+if [ -f ~/.bash_aliases ]; then
+    . ~/.bash_aliases
+fi
+
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+# Conda Initialisation
+if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
+    . "$HOME/miniconda3/etc/profile.d/conda.sh"
+else
+    export PATH="$HOME/miniconda3/bin:$PATH"
+fi
+
+# conda aliases for fast environment switching
+alias act="conda deactivate; conda activate"
+alias deact="conda deactivate"
+
+# Git Prompt
+GIT_PROMPT_ONLY_IN_REPO=1
+GIT_PROMPT_SHOW_UPSTREAM=1 # show upstream tracking branch
+source ~/.bash-git-prompt/gitprompt.sh
+source ~/.bash-git-prompt/prompt-colors.sh
+GIT_PROMPT_PREFIX="${BrightWhite}  "
+GIT_PROMPT_SYMBOLS_AHEAD="${BrightWhite} "
+GIT_PROMPT_SYMBOLS_BEHIND="${BrightWhite} "
+GIT_PROMPT_UPSTREAM=" ${Blue}_UPSTREAM_${ResetColor}"
+GIT_PROMPT_REMOTE=""
+GIT_PROMPT_SEPARATOR=""
+GIT_PROMPT_STAGED="${Magenta}  "
+GIT_PROMPT_CHANGED="${Red}  "
+GIT_PROMPT_UNTRACKED="${Green}  "
+GIT_PROMPT_DELETED="${Red}  "
+GIT_PROMPT_STASHED=" ${Yellow} "
+GIT_PROMPT_CLEAN="${Green} ✔"
+GIT_PROMPT_SUFFIX=""
+
+# Autojump
+# if installed for the current user only
+[[ -s ~/.autojump/etc/profile.d/autojump.sh ]] && source ~/.autojump/etc/profile.d/autojump.sh
+# if installed with root access
+[[ -s /usr/share/autojump/autojump.sh ]] && source /usr/share/autojump/autojump.sh
+
+# snakemake bash completion
+if command -v snakemake > /dev/null; then
+    `snakemake --bash-completion`
+fi
+
+# use local tmux version if it exists
+[[ -f ~/local/bin/tmux ]] && alias tmux="~/local/bin/tmux"
+
+# start a new tmux session and set its name to the current hostname
+# (check if getting the version returns an error first to make sure tmux can be started)
+if tmux -V > /dev/null 2>&1; then
+    [[ -n $TMUX ]] || tmux new-session -A -s ${HOSTNAME/./·}
+fi
+
+# FZF
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+export FZF_DEFAULT_OPTS=$'--bind \'f1:execute(less -f {}),ctrl-y:execute-silent(echo {} | xclip -i -sel c)+abort\''
+
+# tm - create new tmux session, or switch to existing one. Works from within tmux too. (@bag-man)
+# `tm` will allow you to select your tmux session via fzf.
+# `tm irc` will attach to the irc session (if it exists), else it will create it.
+tm() {
+  [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+  if [ $1 ]; then
+    tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+  fi
+  session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
+}
+
+# use FZF when calling autojump without any arguments
+j() {
+    if [[ "$#" -ne 0 ]]; then
+            cd $(autojump $@)
+            return
+    fi
+    cd "$(autojump -s | sed '/_____/Q; s/^[0-9,.:]*\s*//' |  fzf --height 40% --reverse --inline-info)"
+    }
+
+# fshow - git commit browser
+fshow() {
+  git log --graph --color=always \
+        --format="%C(auto)%h%d %s %C(black)%C(bold)%cr" "$@" |
+  fzf --ansi --no-sort --reverse --tiebreak=index --bind=ctrl-s:toggle-sort \
+        --bind "ctrl-m:execute:
+                 (grep -o '[a-f0-9]\{7\}' | head -1 |
+                  xargs -I % sh -c 'git show --color=always % | less -R') << 'FZF-EOF'
+                  {}
+  FZF-EOF"
+  }
+
+# using ripgrep combined with preview
+# find-in-file - usage: fif <searchTerm>
+fif() {
+  if [ "$#" -ne 1 ]; then echo "Need a string to search for!"; return 1; fi
+  rg --files-with-matches --no-messages $1 | fzf --preview "highlight -O ansi -l {} 2> /dev/null | rg --colors 'match:bg:yellow' --ignore-case --pretty --context 10 $1 || rg --ignore-case --pretty --context 10 $1 {}"
+}
+
+# if command -v thefuck -> /dev/null; then
+#     eval $(thefuck --alias)
+# fi
+
