@@ -196,6 +196,9 @@ Plug 'vim-scripts/indentpython.vim'
 Plug 'lervag/vimtex'
 Plug 'Mi-chael/tex-conceal.vim', {'for': 'tex'}
 
+" VimWiki
+Plug 'vimwiki/vimwiki'
+
 call plug#end()
 
 " YouCompleteMe Settings
@@ -335,6 +338,9 @@ au BufNewFile,BufRead Snakefile set syntax=snakemake
 au BufNewFile,BufRead *.rules set syntax=snakemake
 au BufNewFile,BufRead *.snakefile set syntax=snakemake
 au BufNewFile,BufRead *.snake set syntax=snakemake
+
+" vimwiki/vimwiki
+let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}, {'path': '~/Documents/PnP/zauberschule/', 'syntax': 'markdown', 'ext': '.md'}]
 
 " vimtex settings
 let g:tex_flavor='latex'
