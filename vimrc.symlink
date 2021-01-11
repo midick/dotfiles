@@ -180,7 +180,6 @@ Plug 'vim-scripts/ReplaceWithRegister'
 
 " Text Objects
 Plug 'Julian/vim-textobj-variable-segment'
-Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-line'
 Plug 'kana/vim-textobj-user'
@@ -194,23 +193,34 @@ Plug 'vim-scripts/indentpython.vim'
 
 " LaTeX
 Plug 'lervag/vimtex'
-Plug 'Mi-chael/tex-conceal.vim', {'for': 'tex'}
+Plug 'Mi-chael/tex-conceal.vim', {'for': ['tex', 'md']}
 
 " VimWiki
-Plug 'vimwiki/vimwiki'
+Plug 'vimwiki/vimwiki' " , {'branch': 'dev'}
 
 call plug#end()
 
 " YouCompleteMe Settings
 set rtp+=~/.vim/bundle/YouCompleteMe
-let g:ycm_server_python_interpreter="/usr/bin/python3"
+let g:ycm_server_python_interpreter=expand('$HOME/miniconda3/envs/neovim/bin/python')
 let g:ycm_autoclose_preview_window_after_completion=1
 map <leader>d  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+let g:ycm_filetype_blacklist = {
+        \ 'tagbar': 1,
+        \ 'notes': 1,
+        \ 'netrw': 1,
+        \ 'unite': 1,
+        \ 'text': 1,
+        \ 'pandoc': 1,
+        \ 'infolog': 1,
+        \ 'leaderf': 1,
+        \ 'mail': 1
+        \}
 
 " ultisnips settings
 let g:UltiSnipsExpandTrigger="<c-s>"
 let g:UltiSnipsJumpForwardTrigger="<c-s>"
-let g:UltiSnipsJumpBackwardTrigger="<s-s>"
+let g:UltiSnipsJumpBackwardTrigger="<c-x>"
 
 " Gundo
 nnoremap <leader>u :GundoToggle<CR>
@@ -306,6 +316,7 @@ nmap <leader>gs :Gstatus<CR>
 nmap <leader>gl :G log<CR>
 nmap <leader>gb :Gblame<CR>
 nmap <leader>gr :Gread<CR>
+nmap <leader>gp :Gpush<CR>
 
 " git gutter mappings
 let g:gitgutter_map_keys = 0
@@ -340,16 +351,62 @@ au BufNewFile,BufRead *.snakefile set syntax=snakemake
 au BufNewFile,BufRead *.snake set syntax=snakemake
 
 " vimwiki/vimwiki
-let g:vimwiki_list = [{'path': '~/vimwiki/', 'syntax': 'markdown', 'ext': '.md'}, {'path': '~/Documents/PnP/zauberschule/', 'syntax': 'markdown', 'ext': '.md'}]
+let g:vimwiki_list = [
+    \{
+        \ 'path': '~/vimwiki/',
+        \ 'syntax': 'markdown',
+        \ 'ext': '.md',
+        \ 'folding': 'expr',
+        \ 'customwiki2html': expand('$HOME/.vim/bundle/vimwiki/autoload/vimwiki/customwiki2html.sh'),
+    \},
+    \{
+        \ 'path': '~/personalwiki/',
+        \ 'syntax': 'markdown',
+        \ 'ext': '.md',
+    \},
+    \{
+        \ 'path': '~/Documents/PnP/zauberschule/wiki/',
+        \ 'syntax': 'markdown',
+        \ 'ext': '.md',
+    \},
+    \{
+        \ 'path': '~/Documents/PnP/heist/wiki/',
+        \ 'syntax': 'markdown',
+        \ 'ext': '.md',
+    \}]
+
+  function! VimwikiLinkHandler(link)
+    let link = a:link
+    if link =~# '\(\mwiki\d\+\|diary\|local\|file\):'
+        return 0
+    endif
+    if link =~ '\.[a-z]*\>'
+        if link !~ '\.\(md\|tex\)\>'
+            call vimwiki#base#open_link('e:', 'file:' . link)
+            return 1
+        endif
+    endif
+    return 0
+  endfunction
+
+function! s:Annotate(file)
+    let vimwiki_file = system('python ~/vimwiki/annotate.py ' . a:file)
+    execute 'e '. vimwiki_file
+endfunction
+
+nnoremap <leader>a :call fzf#run({'source': 'ls ~/Documents/papers/', 'sink': function('<sid>Annotate')})<cr>
 
 " vimtex settings
 let g:tex_flavor='latex'
 let g:vimtex_view_method='zathura'
-let g:vimtex_quickfix_mode=0
+let g:vimtex_quickfix_enabled=0
+let g:vimtex_compiler_latexmk_engines={'-': '-lualatex', 'lualatex': '-lualatex'}
+let g:vimtex_indent_on_ampersands=0
 
 " concelament sttings
 let g:tex_conceal = "abdgm"
 set conceallevel=2
+hi Conceal cterm=NONE ctermbg=NONE ctermfg=darkblue
 " spellchecking and autocorrect
 
 " setlocal spell
@@ -359,6 +416,9 @@ set conceallevel=2
 " Latex Math Syntax in Markdown
 " let g:tex_conceal = ""
 " let g:vim_markdown_math = 1
+
+" Thyme
+nmap <leader>t :silent :!thyme<cr>
 
 " automatically set paste / nopaste when pasting
 let &t_SI .= "\<Esc>[?2004h"

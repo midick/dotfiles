@@ -70,6 +70,9 @@ alias la='ls -A'
 alias l='ls -CF'
 alias lss='ls -sh'
 
+# alias for quickly copying file contents to clipboard
+alias clip='xclip -sel c'
+
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'
 
@@ -102,12 +105,20 @@ if ! shopt -oq posix; then
   fi
 fi
 
+# add TexLive to Path
+export PATH="/usr/local/texlive/2019/bin/x86_64-linux:$PATH"
 # Conda Initialisation
 if [ -f "$HOME/miniconda3/etc/profile.d/conda.sh" ]; then
     . "$HOME/miniconda3/etc/profile.d/conda.sh"
 else
     export PATH="$HOME/miniconda3/bin:$PATH"
 fi
+
+# add thyme to path
+export PATH="/home/michael/thyme/bin:$PATH"
+
+# add papis to path
+export PATH="/home/michael/miniconda3/envs/papis/bin:$PATH"
 
 # conda aliases for fast environment switching
 alias act="conda deactivate; conda activate"
