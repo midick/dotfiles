@@ -193,7 +193,7 @@ Plug 'vim-scripts/indentpython.vim'
 
 " LaTeX
 Plug 'lervag/vimtex'
-Plug 'Mi-chael/tex-conceal.vim', {'for': ['tex', 'md']}
+Plug 'midick/tex-conceal.vim', {'for': ['tex', 'md']}
 
 " VimWiki
 Plug 'vimwiki/vimwiki' " , {'branch': 'dev'}
