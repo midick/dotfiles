@@ -105,6 +105,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
+
 # add TexLive to Path
 export PATH="/usr/local/texlive/2019/bin/x86_64-linux:$PATH"
 # Conda Initialisation
@@ -119,6 +120,9 @@ export PATH="/home/michael/thyme/bin:$PATH"
 
 # add papis to path
 export PATH="/home/michael/miniconda3/envs/papis/bin:$PATH"
+
+# add Zotero to path
+export PATH="/home/michael/software/Zotero:$PATH"
 
 # conda aliases for fast environment switching
 alias act="conda deactivate; conda activate"
@@ -209,4 +213,5 @@ fif() {
 # if command -v thefuck -> /dev/null; then
 #     eval $(thefuck --alias)
 # fi
-
+source ~/ssh-find-agent/ssh-find-agent.sh
+set_ssh_agent_socket

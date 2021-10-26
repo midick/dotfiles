@@ -160,7 +160,7 @@ Plug 'tpope/vim-abolish'
 
 " Snippets
 Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Plug 'honza/vim-snippets'
 
 " Linting
 Plug 'dense-analysis/ale'
@@ -197,6 +197,7 @@ Plug 'midick/tex-conceal.vim', {'for': ['tex', 'md']}
 
 " VimWiki
 Plug 'vimwiki/vimwiki' " , {'branch': 'dev'}
+Plug 'michal-h21/vim-zettel'
 
 call plug#end()
 
@@ -204,6 +205,8 @@ call plug#end()
 set rtp+=~/.vim/bundle/YouCompleteMe
 let g:ycm_server_python_interpreter=expand('$HOME/miniconda3/envs/neovim/bin/python')
 let g:ycm_autoclose_preview_window_after_completion=1
+" let g:ycm_auto_trigger=0
+" let g:ycm_min_chars_for_completion=6
 map <leader>d  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 let g:ycm_filetype_blacklist = {
         \ 'tagbar': 1,
@@ -259,11 +262,11 @@ let g:tslime_always_current_session = 1
 let g:test#strategy = "tslime"
 let g:test#preserve_screen = 1
 let g:test#python#runner = 'nose'
-nmap <silent> t<C-n> :TestNearest<CR>
-nmap <silent> t<C-f> :TestFile<CR>
+" nmap <silent> t<C-n> :TestNearest<CR>
+" nmap <silent> t<C-f> :TestFile<CR>
 " nmap <silent> t<C-s> :TestSuite<CR>
 " nmap <silent> t<C-l> :TestLast<CR>
-nmap <silent> t<C-g> :TestVisit<CR>
+" nmap <silent> t<C-g> :TestVisit<CR>
 
 " Faster Scrolling
 nnoremap <C-E> 3<C-E>
@@ -310,13 +313,13 @@ nmap <leader>w :w<CR>
 
 " fugitive mappings
 nmap <leader>gw :Gwrite<CR>
-nmap <leader>gc :Gcommit<CR>
+nmap <leader>gc :Git commit<CR>
 nmap <leader>gd :Gdiff<CR>
 nmap <leader>gs :Gstatus<CR>
 nmap <leader>gl :G log<CR>
 nmap <leader>gb :Gblame<CR>
 nmap <leader>gr :Gread<CR>
-nmap <leader>gp :Gpush<CR>
+nmap <leader>gp :Git push<CR>
 
 " git gutter mappings
 let g:gitgutter_map_keys = 0
@@ -381,13 +384,23 @@ let g:vimwiki_list = [
         return 0
     endif
     if link =~ '\.[a-z]*\>'
-        if link !~ '\.\(md\|tex\)\>'
+        if link !~ '\.\(md\|tex\|py\)\>'
             call vimwiki#base#open_link('e:', 'file:' . link)
             return 1
+        else
+            if link =~ '\.\(py\)\>'
+                execute 'e ' . link
+                return 1
+            endif
         endif
     endif
     return 0
   endfunction
+
+
+let g:zettel_options = [{}, {"front_matter" : [["tags", ""], ["type","note"]], "template" :  "~/personalwiki/zettel_template.tpl"}, {}, {}]
+nnoremap <leader>zn :ZettelNew<space>
+let g:zettel_format = "%file_no"
 
 function! s:Annotate(file)
     let vimwiki_file = system('python ~/vimwiki/annotate.py ' . a:file)
