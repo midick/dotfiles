@@ -5,7 +5,7 @@ set -ga terminal-overrides ",*256col*:Tc"
 
 # Start windows and panes at 1, not 0
 set -g base-index 1
-set -g pane-base-index 1
+setw -g pane-base-index 1
 
 # prefix
 unbind C-b
@@ -18,20 +18,54 @@ set -g renumber-windows on
 # no escape delay
 set -s escape-time 0
 
+# start flavours
+# COLOUR (base16)
+
+# default statusbar colors
+set-option -g status-style "fg=#949494,bg=#3a3a3a"
+
+# default window title colors
+set-window-option -g window-status-style "fg=#949494,bg=default"
+
+# active window title colors
+set-window-option -g window-status-current-style "fg=#ffaf00,bg=default"
+
+# pane border
+set-option -g pane-border-style "fg=#3a3a3a"
+set-option -g pane-active-border-style "fg=#4e4e4e"
+
+# message text
+set-option -g message-style "fg=#dab997,bg=#3a3a3a"
+
+# pane number display
+set-option -g display-panes-active-colour "#afaf00"
+set-option -g display-panes-colour "#ffaf00"
+
+# clock
+set-window-option -g clock-mode-colour "#afaf00"
+
+# copy mode highligh
+set-window-option -g mode-style "fg=#949494,bg=#4e4e4e"
+
+# bell
+set-window-option -g window-status-bell-style "fg=#3a3a3a,bg=#d75f5f"
+# end flavours
+
 # --- Define colour scheme --- #
 c_white='white'
-c_black=colour234
+c_black='black'
 c_red='red'
-c_purple='magenta'
-c_grey_l='brightblack'
-c_grey_d='black'
+c_dark_grey=colour018
+c_light_grey=colour019
+c_alt_fg=colour020
 c_normal='green'
-c_visual='blue'
+c_visual='magenta'
+c_synchronised='yellow'
 # ---------------------------- #
 
 # Panes
 set -g pane-active-border-style "fg=$c_normal"
-set -g message-style "fg=$c_grey_l,bg=$c_grey_d"
+set -g message-style "fg=$c_white,bg=$c_dark_grey"
 set -g pane-border-style "fg=white"
 set -g display-panes-colour "black"
 set -g display-panes-active-colour "white"
@@ -45,7 +79,7 @@ set-hook -g window-layout-changed 'set-window -F pane-border-status \
     "#{?#{||:#{==:#{window_panes},1},#{window_zoomed_flag}},off,top}"'
 
 # Messages
-set -g message-command-style "fg=$c_grey_l,bg=$c_grey_d"
+set -g message-command-style "fg=$c_white,bg=$c_dark_grey"
 set -g display-time 5000
 
 # focus events
@@ -117,6 +151,10 @@ unbind '"'
 set -g set-titles on
 set -g set-titles-string "#S"
 
+# set tmux-window title to current folder basename
+set-option -g automatic-rename on
+set-option -g automatic-rename-format '#{b:pane_current_path}'
+
 # notifications and bells
 set -g bell-action any
 set -g visual-bell off
@@ -128,12 +166,8 @@ bind-key H select-layout even-horizontal
 # toggle mouse mode
 bind-key m set mouse
 
-# detach all other clients
-bind-key S detach-client -a
-
-# rebind session and window tree to disable preview
-bind-key s choose-tree -s -N
-bind-key w choose-tree -w -N
+# detach all other clients of the current session
+bind-key S detach-client -as "#S"
 
 # Move current window position left/right
 bind-key -r > swap-window -t :+1
@@ -142,26 +176,23 @@ bind-key -r < swap-window -t :-1
 # Status line
 
 ## Variables
-status_bg="#{?pane_in_mode,$c_visual,#{?pane_synchronized,${c_purple},${c_normal}}}"
+status_bg="#{?pane_in_mode,$c_visual,#{?pane_synchronized,${c_synchronised},${c_normal}}}"
 prefix_on="#[fg=$c_black,bg=$status_bg,bold] #{?client_prefix,=, } "
 uptime=" #(uptime | rev | cut -d":" -f1 | rev | sed s/,//g )"
-thyme_t="#(cat ~/.thyme-tmux)"
 
 ## Line definition
 set -g status-justify "left"
 set -g status "on"
 set -g status-left-style "none"
 set -g status-right-style "none"
-set -g status-style "fg=$c_grey_d,bg=$c_black,none"
+set -g status-style "fg=$c_dark_grey,bg=$c_dark_grey,none"
 set -g status-right-length "100"
 set -g status-left-length "100"
-setw -g window-status-activity-attr "none"
 setw -g window-status-activity-style "fg=$c_red,bg=$c_black,none"
-set -g status-left "${prefix_on}#[fg=$c_black,bg=$status_bg,bold]Session:#[nobold] #S${prefix_on}#[fg=$c_grey_d,bg=$c_black]"
-set -g status-right "#[bg=$status_bg]${thyme_t}#[fg=$status_bg,bg=$c_grey_d]${uptime} ${copy_mode} #[fg=$c_black,bg=$status_bg]${prefix_on}#h${prefix_on}"
-setw -g window-status-format "#[fg=$status_bg,bg=$c_black] #{?window_last_flag,:, }#I#{?window_last_flag,:, }#[fg=$status_bg,bg=$c_black] #W #{?#{!=:#{window_panes},1},(#{window_panes}) ,}"
-setw -g window-status-current-format "#[fg=$status_bg,bg=$c_grey_d,bold] [#I] #W #{?#{!=:#{window_panes},1},(#{window_panes}) ,}#[fg=$c_grey_l,bg=$c_black]"
+set -g status-left "${prefix_on}#[fg=$c_black,bg=$status_bg,bold]Session:#[nobold] #S${prefix_on}#[fg=$c_black,bg=$c_black]"
+set -g status-right "#[fg=$c_alt_fg,bg=$c_light_grey]${uptime} ${copy_mode} #[fg=$c_black,bg=$status_bg]${prefix_on}#h${prefix_on}"
+setw -g window-status-format "#[fg=$status_bg,bg=$c_dark_grey] #{?window_last_flag,:, }#I#{?window_last_flag,:, }#[fg=$status_bg,bg=$c_dark_grey] #W #{?#{!=:#{window_panes},1},(#{window_panes}) ,}"
+setw -g window-status-current-format "#[fg=$status_bg,bg=$c_black,bold] [#I] #W #{?#{!=:#{window_panes},1},(#{window_panes}) ,}#[fg=$c_dark_grey,bg=$c_black]"
 setw -g window-status-separator ""
 set -g status-interval 1
 set -g focus-events on
-

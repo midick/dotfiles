@@ -1,0 +1,109 @@
+priority -50
+###########################
+# Sections and Paragraphs #
+###########################
+snippet sec "Section" b
+# ${1:Section Name} #
+$0
+endsnippet
+
+snippet ssec "Sub Section" b
+## ${1:Section Name} ##
+$0
+endsnippet
+
+snippet sssec "SubSub Section" b
+### ${1:Section Name} ###
+$0
+endsnippet
+
+snippet par "Paragraph" b
+#### ${1:Paragraph Name} ####
+$0
+endsnippet
+
+snippet spar "Paragraph" b
+##### ${1:Paragraph Name} #####
+$0
+endsnippet
+
+###################
+# Text formatting #
+###################
+
+snippet * "italics"
+*${1:${VISUAL}}*$0
+endsnippet
+
+snippet ** "bold"
+**${1:${VISUAL}}**$0
+endsnippet
+
+snippet *** "bold italics"
+***${1:${VISUAL}}***$0
+endsnippet
+
+snippet /* "Comment"
+<!-- ${1:${VISUAL}} -->$0
+endsnippet
+
+################
+# Common stuff #
+################
+snippet link "Link to something"
+[${1:${VISUAL:Text}}](${3:https://${2:www.url.com}})$0
+endsnippet
+
+snippet img "Image"
+[[file:${1:img path}]] ${2:}$0
+endsnippet
+
+snippet ilc "Inline Code" i
+\`${1:${VISUAL}}\`$0
+endsnippet
+
+snippet cbl "Codeblock" b
+\`\`\`$1
+${2:${VISUAL}}
+\`\`\`
+$0
+endsnippet
+
+snippet refl "Reference Link"
+[${1:${VISUAL:Text}}][${2:id}]$0
+
+[$2]:${4:https://${3:www.url.com}} "${5:$4}"
+endsnippet
+
+snippet fnt "Footnote"
+[^${1:${VISUAL:Footnote}}]$0
+
+[^$1]:${2:Text}
+endsnippet
+
+snippet detail "Disclosure"
+<details${3: open=""}>
+  ${1:<summary>${2}</summary>}$0
+</details>
+endsnippet
+
+post_jump "create_table(snip)"
+snippet "tb([1-9][1-9])" "Fancy table" br
+`!p snip.rv = match.group(1)`
+endsnippet
+
+snippet NPC
+# Aussehen
+$1
+
+# RP
+$2
+
+# Background
+$3
+
+# Stats
+$0
+endsnippet
+
+# vim:ft=snippets:# Markdown
