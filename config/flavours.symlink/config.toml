@@ -1,0 +1,76 @@
+
+[[item]]
+file= "~/.config/zathura/zathurarc"
+template = "zathura"
+
+[[item]]
+file = "~/.config/rofi/themes/colors.rasi"
+template = "rofi"
+subtemplate = "colors"
+rewrite = true
+
+[[item]]
+file = "~/.config/base16.vim"
+template = "vim"
+rewrite = true
+
+[[item]]
+file = "~/.vim/bundle/vim-airline-themes/autoload/airline/themes/base16.vim"
+template = "vim-airline-themes"
+rewrite = true
+
+[[item]]
+file = "~/.config/kitty/colors.conf"
+subtemplate = "default"
+rewrite = true
+template = "kitty"
+# hook = "kitty @ set-colors -a ~/.config/kitty/colors.conf"
+
+
+[[item]]
+file = "~/.shell_colors.sh"
+template = "shell"
+rewrite = true
+hook = "/home/dick/.shell_colors.sh"
+
+[[item]]
+file = '~/.config/i3/config'
+template = 'i3'
+subtemplate = 'colors'
+hook = 'i3-msg reload'
+rewrite = false
+
+[[item]]
+file = '~/.config/dunst/dunstrc'
+template = 'dunst'
+hook = 'killall dunst'
+rewrite = false
+
+[[item]]
+file = '~/.config/polybar/config'
+template = 'polybar'
+rewrite = false
+start = ";start flavours"
+end = ";end flavours"
+hook = "killall polybar && sleep 1 && ~/software/dotfiles/config/i3.xsymlink/scripts/launch_polybar.sh"
+
+
+[[item]]
+file = "~/.tmux.conf"
+template = "tmux"
+hook = "tmux source-file ~/.tmux.conf"
+
+
+[[item]]
+file = "~/.themes/FlatColor/colors3"
+template = "gtk-flatcolor"
+subtemplate = "gtk-3"
+rewrite = true
+hook = "gsettings set org.gnome.desktop.interface gtk-theme dummy && gsettings set org.gnome.desktop.interface gtk-theme FlatColor"
+
+[[item]]
+file = "~/.themes/FlatColor/colors2"
+template = "gtk-flatcolor"
+subtemplate = "gtk-2"
+rewrite = true
+
