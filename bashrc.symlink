@@ -128,6 +128,9 @@ GIT_PROMPT_THEME=Custom
 source ~/.bash-git-prompt/gitprompt.sh
 
 # add Zotero to path
+export PATH="$HOME/software/arduino/bin:$PATH"
+
+# add Zotero to path
 export PATH="$HOME/software/Zotero:$PATH"
 
 # Autojump
