@@ -25,17 +25,20 @@ focus_follows_mouse no
 ###########################
 #  Workspace Assignments  #
 ###########################
+assign [class="Spotify"] → 1
 assign [class="^Zotero$"] → 2
 assign [class="Signal"] → 3
-assign [class="Telegram"] → 3
-assign [class="slack"] → 3
+assign [class="TelegramDesktop"] → 3
+assign [class="Slack"] → 3
+assign [class="Mattermost"] → 3
 assign [class="^kitty$"] → 4
 for_window [class="kitty" title="scratchpad"] move scratchpad
 for_window [class="kitty" title="scratchpad"] resize set 800 450
 assign [class="^Thunderbird$"] → 5
-assign [class="^Firefox$"] → 6
-assign [class="^Lyx$"] → 7
+assign [class="^firefox$"] → 6
+assign [class="(?i)^lyx"] → 7
 assign [class="^zoom$"] → 11
+assign [class="zoom "] → 11
 assign [title="^join\?"] → 11
 assign [title="^Zoom"] → 11
 
@@ -82,6 +85,8 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 5 # decrease screen brightnes
 bindsym XF86TouchpadToggle exec ~/.config/i3/scripts/toggle_touchpad.sh # toggle touchpad
 # Wifi
 bindsym XF86WLAN exec ~/.config/i3/scripts/toggle-wifi.sh
+# load x config for current screen setup
+bindsym XF86Display exec autorandr -c
 
 # toggle scratchpad
 bindsym F12 scratchpad show
