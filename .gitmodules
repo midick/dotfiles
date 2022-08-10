@@ -10,4 +10,7 @@
 [submodule "themes.symlink/FlatColor"]
 	path = themes.symlink/FlatColor
     url = git@github.com:jasperro/FlatColor.git
+[submodule "config/i3.xsymlink/scripts/i3lock-multimonitor"]
+	path = config/i3.xsymlink/scripts/i3lock-multimonitor
+	url = git@github.com:ShikherVerma/i3lock-multimonitor.git
 
