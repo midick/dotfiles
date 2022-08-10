@@ -194,8 +194,10 @@ if has("python3")
     Plug 'honza/vim-snippets'
 endif
 
-" Linting
-Plug 'dense-analysis/ale'
+if has('nvim')
+    " Linting
+    Plug 'dense-analysis/ale'
+endif
 
 " Autocompletion
 " if has("python3")
