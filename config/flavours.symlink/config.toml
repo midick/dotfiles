@@ -61,8 +61,16 @@ template = "tmux"
 hook = "tmux source-file ~/.tmux.conf"
 
 
+
 [[item]]
 file = "~/.themes/FlatColor/colors3"
+template = "gtk-flatcolor"
+subtemplate = "gtk-3"
+rewrite = true
+hook = "gsettings set org.gnome.desktop.interface gtk-theme dummy && gsettings set org.gnome.desktop.interface gtk-theme FlatColor"
+
+[[item]]
+file = "~/.gtkrc-3"
 template = "gtk-flatcolor"
 subtemplate = "gtk-3"
 rewrite = true
@@ -73,4 +81,17 @@ file = "~/.themes/FlatColor/colors2"
 template = "gtk-flatcolor"
 subtemplate = "gtk-2"
 rewrite = true
+
+[[item]]
+file = "~/.config/qt5ct/colors/customqt.conf"
+template = "qt5ct"
+subtemplete = "default"
+rewrite = true
+
+[[item]]
+file = "~/.lyx/preferences"
+template = "lyx"
+rewrite = false
+start = "# start flavours"
+end = "# end flavours"
 
