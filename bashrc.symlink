@@ -73,10 +73,12 @@ fi
 
 # some more ls aliases
 alias ll='ls -alhF'
+alias lt='ls -alhFtr'
 alias la='ls -A'
 alias l='ls -CF'
 alias lss='ls -sh'
 alias RC='~/.shell_colors.sh'
+alias sync='rsync -v --update'
 
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'
@@ -156,8 +158,13 @@ export FZF_DEFAULT_OPTS=$'--bind \'f1:execute(less -f {}),ctrl-y:execute-silent(
 # `tm irc` will attach to the irc session (if it exists), else it will create it.
 tm() {
   [[ -n "$TMUX" ]] && change="switch-client" || change="attach-session"
+  if [ $2 ]; then
+      command="${@:2}";
+  else
+      command='';
+  fi
   if [ $1 ]; then
-    tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1"); return
+    tmux $change -t "$1" 2>/dev/null || (tmux new-session -d -s $1 && tmux $change -t "$1" $command ); return
   fi
   session=$(tmux list-sessions -F "#{session_name}" 2>/dev/null | fzf --exit-0) &&  tmux $change -t "$session" || echo "No sessions found."
 }
@@ -169,11 +176,16 @@ tm() {
 # (check if getting the version returns an error first to make sure tmux can be started)
 if tmux -V > /dev/null 2>&1 &&  ! [[ -n "$TMUX" ]]; then
     scratchpad_session_name=scratchpad
+    notepad_session_name=notepad
     terminal_session_name=${HOSTNAME/./·}
-    if [[ -n $scratchpad ]]; then
-        tm $scratchpad_session_name
+    if [[ -n $notepad ]]; then
+        tm $notepad_session_name \; send-keys 'nvim Space -c Space VimwikiMakeDiaryNote' C-m \; split-window -h \; send-keys 'nvim Space -c Space 2VimwikiMakeDiaryNote' C-m \;
     else
-        tm $terminal_session_name
+        if [[ -n $scratchpad ]]; then
+            tm $scratchpad_session_name
+        else
+            tm $terminal_session_name
+        fi
     fi
 fi
 
