@@ -243,7 +243,11 @@ endif
 " VimWiki
 Plug 'vimwiki/vimwiki', {'branch': 'dev'}
 Plug 'masukomi/vim-markdown-folding'
-Plug 'qaiviq/vim-imager'
+
+if has('nvim')
+    Plug 'qaiviq/vim-imager'
+endif
+
 let s:image_regexp = '.*[[ *img path="\([^"]\+\)" height=\(\d\+\) *]].*$'
 call plug#end()
 
