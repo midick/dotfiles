@@ -32,6 +32,8 @@ assign [class="TelegramDesktop"] → 3
 assign [class="Slack"] → 3
 assign [class="Mattermost"] → 3
 assign [class="^kitty$"] → 4
+for_window [class="kitty" title="notepad"] move scratchpad
+for_window [class="kitty" title="notepad"] resize set 800 450
 for_window [class="kitty" title="scratchpad"] move scratchpad
 for_window [class="kitty" title="scratchpad"] resize set 800 450
 assign [class="^Thunderbird$"] → 5
@@ -57,6 +59,7 @@ exec --no-startup-id sleep 1; killall -q /usr/lib/gnome-settings-daemon/gsd-prin
 exec --no-startup-id sleep 2; dunst -config ~/.config/dunst/dunstrc
 exec --no-startup-id sleep 1; nitrogen --restore
 exec --no-startup-id sleep 2; kitty --session ~/.config/kitty/scratchpad.session
+exec --no-startup-id sleep 2; kitty --session ~/.config/kitty/notepad.session
 exec --no-startup-id sleep 2; kitty
 exec --no-startup-id sleep 1; thunderbird
 exec --no-startup-id sleep 1; firefox
@@ -64,7 +67,7 @@ exec --no-startup-id sleep 1; ~/software/Zotero/zotero
 exec --no-startup-id sleep 1; nm-applet
 exec --no-startup-id sleep 1; telegram-desktop
 exec --no-startup-id sleep 1; signal-desktop
-exec --no-startup-id sleep 1; slack
+# exec --no-startup-id sleep 1; slack
 exec --no-startup-id sleep 1; flatpak run com.mattermost.Desktop
 exec --no-startup-id sleep 1; flatpak run com.spotify.Client
 # exec --no-startup-id sleep 1; dropbox start
@@ -86,10 +89,12 @@ bindsym XF86TouchpadToggle exec ~/.config/i3/scripts/toggle_touchpad.sh # toggle
 # Wifi
 bindsym XF86WLAN exec ~/.config/i3/scripts/toggle-wifi.sh
 # load x config for current screen setup
-bindsym XF86Display exec autorandr -c
+bindsym XF86Display exec autorandr -c --force
 
 # toggle scratchpad
-bindsym F12 scratchpad show
+bindsym F12 [title="scratchpad"] scratchpad show
+# toggle notepad
+bindsym F9 [title="notepad"] scratchpad show
 
 # move workspace to left and right monitors
 bindsym $mod+Shift+bracketleft move workspace to output left
@@ -126,6 +131,8 @@ bindsym $mod+Ctrl+l exec ~/.config/i3/scripts/lock_screen.sh
 # start dmenu (a program launcher)
 bindsym $mod+d exec dmenu_run
 bindsym $mod+Tab exec rofi -show window
+bindsym $mod+c exec rofi -show calc -modi calc -no-show-match -no-sort -calc-command "echo -n '{result}' | xclip -i -sel c"
+
 # There also is the (new) i3-dmenu-desktop which only displays applications
 # shipping a .desktop file. It is a wrapper around dmenu, so you need that
 # installed.

@@ -32,6 +32,7 @@ SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3.hdmi-stereo-extra2"]="HDMI"
 SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3.hdmi-stereo-extra3"]="HDMI"
 SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3.hdmi-stereo-extra4"]="HDMI"
 SINK_NICKNAMES["bluez_sink.38_18_4C_D3_40_6F.a2dp_sink"]="WH XM3"
+SINK_NICKNAMES["bluez_sink.20_74_CF_BA_FB_1E.a2dp_sink"]="shokz"
 SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp_3__sink"]="Laptop"
 
 

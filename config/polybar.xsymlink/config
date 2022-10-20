@@ -82,7 +82,7 @@ font-0 = "FiraCode Nerd Font:style=Retina:size=10;2"
 
 modules-left = i3 dunst mail spotify
 modules-center = date pomobar
-modules-right = pulseaudio-control cpu-info temperature memory-info network_usage battery powermenu
+modules-right = pipewire-control cpu-info temperature memory-info network_usage battery powermenu
 
 tray-position = ""
 tray-padding = 1
@@ -355,23 +355,23 @@ click-left = ~/software/pomobar/pomobar.py --action=new &
 click-middle= ~/software/pomobar/pomobar.py --action=kill &
 click-right = ~/software/pomobar/pomobar.py --action=break &
 
-[module/pulseaudio-control]
+[module/pipewire-control]
 type = custom/script
 tail = true
 label=%output%
 ; format-underline = ${colors.base0D}
 
-exec = ~/.config/polybar/scripts/pulseaudio-control.bash listen
+exec = ~/.config/polybar/scripts/pipewire-control.bash listen
 click-right = exec pavucontrol &
-click-left = ~/.config/polybar/scripts/pulseaudio-control.bash togmute
-click-middle = ~/.config/polybar/scripts/pulseaudio-control.bash next-sink
-scroll-up = ~/.config/polybar/scripts/pulseaudio-control.bash up
-scroll-down = ~/.config/polybar/scripts/pulseaudio-control.bash down
+click-left = ~/.config/polybar/scripts/pipewire-control.bash togmute
+click-middle = ~/.config/polybar/scripts/pipewire-control.bash next-sink
+scroll-up = ~/.config/polybar/scripts/pipewire-control.bash up
+scroll-down = ~/.config/polybar/scripts/pipewire-control.bash down
 label-padding = 0
 label-foreground = ${colors.base0D}
 
-[module/pulseaudio]
-type = internal/pulseaudio
+[module/pipewire]
+type = internal/pipewire
 
 format-volume = <ramp-volume> <label-volume>
 label-volume = %percentage%%

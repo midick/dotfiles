@@ -1,0 +1,145 @@
+# modifications you should do them from inside LyX and save.
+
+Format 24
+
+
+#
+# MISC SECTION ######################################
+#
+
+\user_name "Michael Dick"
+\user_email ""
+
+#
+# SCREEN & FONTS SECTION ############################
+#
+
+\icon_set "classic"
+\screen_font_typewriter "FiraCode Nerd Font"
+\screen_font_sizes 5 7 8 9 10 12 14.4 17.26 20.74 24.88
+\single_instance false
+
+#
+# COLOR SECTION ###################################
+#
+
+# start flavours
+#
+#
+# Base16 Gruvbox dark, pale
+# Author: Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
+#
+#
+
+
+\set_color "cursor" "#ffdab997"
+\set_color "background" "#ff262626"
+\set_color "foreground" "#ffdab997"
+\set_color "selection" "#ff85ad85"
+\set_color "selectiontext" "#ff262626"
+\set_color "latex" "#ffdab997"
+\set_color "preview" "#ffdab997"
+\set_color "inlinecompletion" "#ff85ad85"
+\set_color "nonuniqueinlinecompletion" "#ff85ad85"
+\set_color "note" "#ff83adad"
+\set_color "notebg" "#ff4e4e4e"
+\set_color "commentbg" "#ff4e4e4e"
+\set_color "greyedoutbg" "#ff4e4e4e"
+\set_color "shaded" "#ffd65d0e"
+\set_color "listingsbg" "#ff83adad"
+\set_color "footlabel" "#ff949494"
+\set_color "urllabel" "#ffdab997"
+\set_color "urltext" "#ffdab997"
+\set_color "depthbar" "#ffafaf00"
+\set_color "language" "#ffdab997"
+\set_color "command" "#ffafaf00"
+\set_color "commandbg" "#ff4e4e4e"
+\set_color "commandframe" "#ff85ad85"
+\set_color "special" "#ff4e4e4e"
+\set_color "graphicsbg" "#ffffff"
+\set_color "math" "#ffdab997"
+\set_color "mathbg" "#ff262626"
+\set_color "mathmacrobg" "#ff4e4e4e"
+\set_color "mathmacroframe" "#ff4e4e4e"
+\set_color "mathmacroblend" "#ffdab997"
+\set_color "mathmacronewarg" "#ffdab997"
+\set_color "mathframe" "#ffdab997"
+\set_color "mathcorners" "#ff4e4e4e"
+\set_color "mathline" "#ffdab997"
+\set_color "collapsible" "#ffd485ad"
+\set_color "collapsibleframe" "#ff4e4e4e"
+\set_color "insetframe" "#ff85ad85"
+\set_color "eolmarker" "#ffafaf00"
+\set_color "added_space" "#ffafaf00"
+\set_color "appendix" "#ffd65d0e"
+\set_color "changebar" "#ff3a3a3a"
+\set_color "addedtext" "#ffdab997"
+\set_color "changedtextauthor1" "#ffafaf00"
+\set_color "changedtextauthor2" "#ffffaf00"
+\set_color "changedtextauthor3" "#ffff8700"
+\set_color "changedtextauthor4" "#b58900"
+\set_color "changedtextauthor5" "#ffd65d0e"
+\set_color "tabularline" "#ffdab997"
+\set_color "tabularonoffline" "#ff85ad85"
+\set_color "bottomarea" "#ff4e4e4e"
+\set_color "newpage" "#ffafaf00"
+\set_color "pagebreak" "#ff83adad"
+\set_color "buttonframe" "#ff85ad85"
+\set_color "buttonbg" "#ff262626"
+\set_color "buttonhoverbg" "#ff4e4e4e"
+\set_color "paragraphmarker" "#ff85ad85"
+\set_color "previewframe" "#ffdab997"
+
+# end flavours
+
+#
+# PRINTER SECTION ###################################
+#
+
+
+#
+# TEX SECTION #######################################
+#
+
+
+#
+# FILE SECTION ######################################
+#
+
+
+#
+# PLAIN TEXT EXPORT SECTION ##############################
+#
+
+
+#
+# SPELLCHECKER SECTION ##############################
+#
+
+
+#
+# LANGUAGE SUPPORT SECTION ##########################
+#
+
+\spellcheck_continuously true
+
+#
+# 2nd MISC SUPPORT SECTION ##########################
+#
+
+
+#
+# FORMATS SECTION ##########################
+#
+
+\default_otf_view_format dvi3
+
+#
+# CONVERTERS SECTION ##########################
+#
+
+\converter "pdf6" "png" "convert $$i $$o" ""
+
+#
+# COPIERS SECTION ##########################
+#
