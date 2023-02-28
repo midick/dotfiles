@@ -78,7 +78,7 @@ alias la='ls -A'
 alias l='ls -CF'
 alias lss='ls -sh'
 alias RC='~/.shell_colors.sh'
-alias sync='rsync -v --update'
+alias sync='rsync -v --update -z -h'
 
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'
@@ -179,7 +179,7 @@ if tmux -V > /dev/null 2>&1 &&  ! [[ -n "$TMUX" ]]; then
     notepad_session_name=notepad
     terminal_session_name=${HOSTNAME/./·}
     if [[ -n $notepad ]]; then
-        tm $notepad_session_name \; send-keys 'nvim Space -c Space VimwikiMakeDiaryNote' C-m \; split-window -h \; send-keys 'nvim Space -c Space 2VimwikiMakeDiaryNote' C-m \;
+        tm $notepad_session_name \; send-keys 'cd Space ~/vimwiki Space && Space nvim Space -c Space VimwikiMakeDiaryNote' C-m \; split-window -h \; send-keys 'cd Space ~/personalwiki Space && Space nvim Space -c Space 2VimwikiMakeDiaryNote' C-m \;
     else
         if [[ -n $scratchpad ]]; then
             tm $scratchpad_session_name
@@ -254,4 +254,5 @@ r() {
 
 
 alias bat=batcat
+alias black='~/software/miniconda3/envs/neovim/bin/black'
 . "$HOME/.cargo/env"
