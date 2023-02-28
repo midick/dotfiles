@@ -141,12 +141,13 @@ Plug 'rkitover/vimpager'
 
 " Visuals
 " Plug 'chriskempson/base16-vim'
+Plug 'chrisbra/colorizer'
 
 
 Plug 'noahfrederick/vim-noctu'
 Plug 'machakann/vim-highlightedyank'
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 
 " Git
 Plug 'airblade/vim-gitgutter'
@@ -188,10 +189,14 @@ Plug 'sjl/gundo.vim'
 " Advanced Substitution and Abbreviation
 Plug 'tpope/vim-abolish'
 
+" Mail
+Plug 'adborden/vim-notmuch-address'
+
 " Snippets
 if has("python3")
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
+    let g:gundo_prefer_python3 = 1          " anything else breaks on Ubuntu 16.04+
 endif
 
 if has('nvim')
@@ -200,9 +205,13 @@ if has('nvim')
 endif
 
 " Autocompletion
-" if has("python3")
-"     Plug 'Valloric/YouCompleteMe'
-" endif
+if has("python3")
+    " Plug 'Valloric/YouCompleteMe'
+    Plug 'dense-analysis/neural'
+    Plug 'muniftanjim/nui.nvim'
+    Plug 'elpiloto/significant.nvim'
+endif
+
 
 " Motions
 Plug 'justinmk/vim-sneak'
@@ -447,7 +456,7 @@ let g:vimwiki_list = [
         \ 'syntax': 'markdown',
         \ 'ext': '.md',
         \ 'folding': 'expr',
-        \ 'customwiki2html': expand('$HOME/.vim/bundle/vimwiki/autoload/vimwiki/customwiki2html.sh'),
+        \ 'auto_tags': 1,
     \},
     \{
         \ 'path': '~/personalwiki',
@@ -460,12 +469,12 @@ let g:vimwiki_list = [
         \ 'ext': '.md',
     \},
     \{
-        \ 'path': '~/Documents/PnP/Neverembers_Enigma/wiki/',
+        \ 'path': '~/Documents/PnP/Neverembers_Enigma/prep/',
         \ 'syntax': 'markdown',
         \ 'ext': '.md',
     \}]
 
-let g:vimwiki_folding = 'custom'
+let g:vimwiki_folding = 'expr'
 autocmd FileType vimwiki setlocal foldenable
 
   function! VimwikiLinkHandler(link)
@@ -490,8 +499,19 @@ function! s:Annotate(file)
     let vimwiki_file = system('python3 ~/vimwiki/annotate.py ' . a:file)
     execute 'e '. vimwiki_file
 endfunction
+nnoremap <leader>a :call fzf#run({'source': 'ls ~/Documents/papers/', 'sink': function('<sid>Annotate')})<cr>
+
+au BufNewFile ~/vimwiki/diary/*.md :silent 0r !~/vimwiki/diary/generate_vimwiki_diary_template.py '%'
+au BufNewFile ~/personalwiki/diary/*.md :silent 0r !~/personalwiki/diary/generate_vimwiki_diary_template.py '%'
 
 let g:imager#filetypes = ['.md']
 
-nnoremap <leader>a :call fzf#run({'source': 'ls ~/Documents/papers/', 'sink': function('<sid>Annotate')})<cr>
-
+" Neural config
+let api_key =  system('secret-tool lookup API-key personal')
+let g:neural = {
+\   'source': {
+\       'openai': {
+\           'api_key': api_key,
+\       },
+\   },
+\}
