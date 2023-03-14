@@ -206,10 +206,10 @@ endif
 
 " Autocompletion
 if has("python3")
-    " Plug 'Valloric/YouCompleteMe'
     Plug 'dense-analysis/neural'
     Plug 'muniftanjim/nui.nvim'
     Plug 'elpiloto/significant.nvim'
+    Plug 'ryicoh/deepl.vim'
 endif
 
 
@@ -226,7 +226,6 @@ Plug 'vim-scripts/ReplaceWithRegister'
 
 " Text Objects
 Plug 'Julian/vim-textobj-variable-segment'
-" Plug 'kana/vim-textobj-entire'
 Plug 'kana/vim-textobj-indent'
 Plug 'kana/vim-textobj-line'
 Plug 'wellle/targets.vim'
@@ -278,14 +277,6 @@ let g:tex_conceal='abdmg'
 " ranger
 let g:ranger_replace_netrw = 1 " open ranger when opening a directory
 
-" YouCompleteMe Settings
-" set rtp+=~/.vim/bundle/YouCompleteMe
-" let g:ycm_server_python_interpreter="/usr/bin/python3"
-" let g:ycm_autoclose_preview_window_after_insertion=1
-" map <leader>d  :YcmCompleter GoToDefinitionElseDeclaration<CR>
-" map <leader>D  :YcmCompleter GetDoc<CR>
-" map <C-Q>  :pc<CR>
-
 " ultisnips settings
 let g:UltiSnipsExpandTrigger="<C-s>"
 let g:UltiSnipsJumpForwardTrigger="<C-f>"
@@ -301,14 +292,6 @@ set rtp+=~/.fzf
 let g:fzf_action = {'ctrl-h': 'split', 'ctrl-v': 'vsplit'}
 nnoremap <C-F> :Files<CR>
 nnoremap <C-B> :Buffers<CR>
-
-" automatically match the theme to the one set by base16-shell
-" if filereadable(expand("~/.vimrc_background"))
-"   let base16colorspace=256
-"   source ~/.vimrc_background
-" endif
-" source ~/.config/base16.vim
-"   let g:base16_shell_path=~/.config/base16.vim
 
 " make comments italic
 highlight Comment cterm=italic
@@ -511,11 +494,27 @@ au BufNewFile ~/personalwiki/diary/*.md :silent 0r !~/personalwiki/diary/generat
 let g:imager#filetypes = ['.md']
 
 " Neural config
-let api_key =  system('secret-tool lookup API-key personal')
 let g:neural = {
 \   'source': {
 \       'openai': {
-\           'api_key': api_key,
+\           'api_key':  system('secret-tool lookup API-key OpenAI'),
 \       },
 \   },
 \}
+
+" DeepL Config
+"
+let g:deepl#endpoint = "https://api-free.deepl.com/v2/translate"
+let g:deepl#auth_key = system('secret-tool lookup API-key DeepL')
+" replace a visual selection
+vmap t<C-e> <Cmd>call deepl#v("EN")<CR>
+vmap t<C-d> <Cmd>call deepl#v("DE")<CR>
+
+" translate a current line and display on a new line
+nmap t<C-e> yypV<Cmd>call deepl#v("EN")<CR>
+nmap t<C-d> yypV<Cmd>call deepl#v("DE")<CR>
+
+" specify the source language
+" translate from FR to EN
+" nmap t<C-e> yypV<Cmd>call deepl#v("EN", "FR")<CR>
+
