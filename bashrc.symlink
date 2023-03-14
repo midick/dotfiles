@@ -256,3 +256,6 @@ r() {
 alias bat=batcat
 alias black='~/software/miniconda3/envs/neovim/bin/black'
 . "$HOME/.cargo/env"
+
+
+eval `keychain --eval`
