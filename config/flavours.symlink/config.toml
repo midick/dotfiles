@@ -19,13 +19,6 @@ file = "~/.vim/bundle/vim-airline-themes/autoload/airline/themes/base16.vim"
 template = "vim-airline-themes"
 rewrite = true
 
-[[item]]
-file = "~/.config/kitty/colors.conf"
-subtemplate = "default"
-rewrite = true
-template = "kitty"
-# hook = "kitty @ set-colors -a ~/.config/kitty/colors.conf"
-
 
 [[item]]
 file = "~/.shell_colors.sh"

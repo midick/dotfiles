@@ -31,11 +31,11 @@ assign [class="Signal"] → 3
 assign [class="TelegramDesktop"] → 3
 assign [class="Slack"] → 3
 assign [class="Mattermost"] → 3
-assign [class="^kitty$"] → 4
-for_window [class="kitty" title="notepad"] move scratchpad
-for_window [class="kitty" title="notepad"] resize set 800 450
-for_window [class="kitty" title="scratchpad"] move scratchpad
-for_window [class="kitty" title="scratchpad"] resize set 800 450
+assign [class="^contour$"] → 4
+for_window [class="notepad"] move scratchpad
+for_window [class="notepad"] resize set 800 450
+for_window [class="scratchpad"] move scratchpad
+for_window [class="scratchpad"] resize set 800 450
 assign [class="^Thunderbird$"] → 5
 assign [class="^firefox$"] → 6
 assign [class="(?i)^lyx"] → 7
@@ -58,9 +58,9 @@ exec_always sleep 3; ~/.config/i3/scripts/launch_polybar.sh
 exec --no-startup-id sleep 1; killall -q /usr/lib/gnome-settings-daemon/gsd-print-notifications
 exec --no-startup-id sleep 2; dunst -config ~/.config/dunst/dunstrc
 exec --no-startup-id sleep 1; nitrogen --restore
-exec --no-startup-id sleep 2; kitty --session ~/.config/kitty/scratchpad.session
-exec --no-startup-id sleep 2; kitty --session ~/.config/kitty/notepad.session
-exec --no-startup-id sleep 2; kitty
+exec --no-startup-id sleep 2; contour --session scratchpad --profile scratchpad
+exec --no-startup-id sleep 2; contour --session notepad --profile notepad
+exec --no-startup-id sleep 2; contour
 exec --no-startup-id sleep 1; thunderbird
 exec --no-startup-id sleep 1; firefox
 exec --no-startup-id sleep 1; ~/software/Zotero/zotero
@@ -92,9 +92,9 @@ bindsym XF86WLAN exec ~/.config/i3/scripts/toggle-wifi.sh
 bindsym XF86Display exec autorandr -c --force
 
 # toggle scratchpad
-bindsym F12 [title="scratchpad"] scratchpad show
+bindsym F12 [class="scratchpad"] scratchpad show
 # toggle notepad
-bindsym F9 [title="notepad"] scratchpad show
+bindsym F9 [class="notepad"] scratchpad show
 
 # move workspace to left and right monitors
 bindsym $mod+Shift+bracketleft move workspace to output left
@@ -117,7 +117,7 @@ bindsym $mod+Shift+o exec xdotool search --all --onlyvisible --desktop $(xprop -
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec contour
 
 # kill focused window
 bindsym $mod+q kill
