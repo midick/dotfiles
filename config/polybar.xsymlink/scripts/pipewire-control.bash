@@ -7,9 +7,10 @@
 
 # Defaults for configurable values, expected to be set by command-line arguments
 AUTOSYNC="no"
-COLOR_MUTED="%{F#6b6b6b}"
-ICON_MUTED=
+COLOR_MUTED="%{F#dab997}"
+ICON_MUTED="ﱝ "  # Muted volume icon
 ICON_SINK=
+ICONS_VOLUME=( "奄 " "奔 " "墳 " )  # Volume icons array, from lower volume to higher
 NOTIFICATIONS="no"
 OSD="no"
 SINK_NICKNAMES_PROP=
@@ -18,6 +19,16 @@ VOLUME_MAX=130
 # shellcheck disable=SC2016
 FORMAT='$VOL_ICON ${VOL_LEVEL}%  $ICON_SINK $SINK_NICKNAME'
 declare -A SINK_NICKNAMES
+SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3.analog-stereo"]="Internal"
+SINK_NICKNAMES["alsa_output.usb-Generic_ThinkPad_Dock_USB_Audio-00.analog-stereo"]="Dock"
+SINK_NICKNAMES["echoCancel_sink"]="Echo-Cancel"
+SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3.hdmi-stereo-extra1"]="HDMI"
+SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3.hdmi-stereo-extra2"]="HDMI"
+SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3.hdmi-stereo-extra3"]="HDMI"
+SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3.hdmi-stereo-extra4"]="HDMI"
+SINK_NICKNAMES["bluez_sink.38_18_4C_D3_40_6F.a2dp_sink"]="WH XM3"
+SINK_NICKNAMES["bluez_sink.20_74_CF_BA_FB_1E.a2dp_sink"]="shokz"
+SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp_3__sink"]="Laptop"
 declare -a ICONS_VOLUME
 declare -a SINK_BLACKLIST
 
