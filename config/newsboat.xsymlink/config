@@ -1,0 +1,26 @@
+color background          white   black
+color listnormal          white   black
+color listfocus           yellow  black   bold
+color listnormal_unread   magenta black
+color listfocus_unread    blue black   bold
+# color title               yellow  blue   bold
+color info                black  yellow   bold
+# color hint-key            yellow  blue   bold
+# color hint-keys-delimiter yellow  white
+# color hint-separator      yellow  white  bold
+# color hint-description    yellow  white
+color article             white   black
+
+
+
+browser firefox
+
+unbind-key q
+unbind-key Q
+bind-key x quit
+bind-key q hard-quit
+
+unbind-key ?
+bind-key h help
+
+bind-key O open-all-unread-in-browser-and-mark-read

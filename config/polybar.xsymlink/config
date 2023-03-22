@@ -80,8 +80,8 @@ module-margin-right = 1
 
 font-0 = "FiraCode Nerd Font:style=Retina:size=10;2"
 
-modules-left = i3 dunst mail spotify
-modules-center = date pomobar
+modules-left = i3 dunst mail newsboat spotify
+modules-center = date
 modules-right = pipewire-control cpu-info temperature memory-info network_usage battery powermenu
 
 tray-position = ""
@@ -345,6 +345,11 @@ format-background = ${colors.base00}
 format-foreground = ${colors.base07}
 
 label = %date% %time%
+
+[module/newsboat]
+type=custom/script
+exec=echo " 🛥  $(newsboat -x print-unread | awk '!/^0/ {print $1}' >> ~/.newsboatoutput; cat ~/.newsboatoutput)"
+
 
 [module/pomobar]
 type=custom/ipc
