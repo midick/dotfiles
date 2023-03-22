@@ -179,7 +179,7 @@ if tmux -V > /dev/null 2>&1 &&  ! [[ -n "$TMUX" ]]; then
     notepad_session_name=notepad
     terminal_session_name=${HOSTNAME/./·}
     if [[ -n $notepad ]]; then
-        tm $notepad_session_name \; send-keys 'cd Space ~/vimwiki Space && Space nvim Space -c Space VimwikiMakeDiaryNote' C-m \; split-window -h \; send-keys 'cd Space ~/personalwiki Space && Space nvim Space -c Space 2VimwikiMakeDiaryNote' C-m \;
+        tm $notepad_session_name \; send-keys 'cd Space ~/vimwiki Space && Space nvim Space -c Space VimwikiMakeDiaryNote' C-m \; new-window -h \; send-keys 'cd Space ~/personalwiki Space && Space nvim Space -c Space 2VimwikiMakeDiaryNote' C-m \;
     else
         if [[ -n $scratchpad ]]; then
             tm $scratchpad_session_name
