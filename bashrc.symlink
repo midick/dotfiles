@@ -258,4 +258,4 @@ alias black='~/software/miniconda3/envs/neovim/bin/black'
 . "$HOME/.cargo/env"
 
 
-eval `keychain --eval`
+eval `keychain --eval -q`
