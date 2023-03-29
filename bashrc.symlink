@@ -255,6 +255,7 @@ r() {
 
 alias bat=batcat
 alias black='~/software/miniconda3/envs/neovim/bin/black'
+alias check='cd ~/software/dotfiles/ && git diff ./bashrc.symlink; cd -'
 . "$HOME/.cargo/env"
 
 
