@@ -10,7 +10,8 @@ https://terrytao.wordpress.com/feed "~Terry Tao" math
 http://www.johndcook.com/blog/feed/ math
 http://www.shatteredstarlight.com/feed/ webcomic
 http://dresdencodak.com/feed/rss/ webcomic
-https://experimentalhistory.substack.com/feed psychology
+https://experimentalhistory.substack.com/feed psychology writing
+https://sashachapin.substack.com/feed writing psychology
 https://runacomic.com/feed/ webcomic
 https://killsixbilliondemons.com/feed/ webcomic
 https://createfeed.fivefilters.org/extract.php?url=learnmyog.com&max=5&order=document&guid=0
@@ -31,3 +32,4 @@ https://blinry.org/feed/ computer
 https://blog.plover.com/index.rss
 https://www.dkriesel.com/feed.php?linkto=current&content=html&mode=blogtng&blog=blog-de computer
 https://github.com/zellij-org/zellij/releases.atom computer vim
+https://github.com/ahrm/sioyek/releases.atom computer vim
