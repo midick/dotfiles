@@ -115,6 +115,16 @@ set sidescrolloff=5
 set winheight=5
 set winminheight=5
 
+" don't be a Jonas
+noremap <Up> <Nop>
+inoremap <Up> <Nop>
+noremap <Down> <Nop>
+inoremap <Down> <Nop>
+noremap <Left> <Nop>
+inoremap <Left> <Nop>
+noremap <Right> <Nop>
+inoremap <Right> <Nop>
+
 " make Y yank to end of line
 nnoremap Y y$
 
