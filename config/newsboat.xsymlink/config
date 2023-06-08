@@ -24,3 +24,6 @@ unbind-key ?
 bind-key h help
 
 bind-key O open-all-unread-in-browser-and-mark-read
+
+bind-key j down
+bind-key k up
