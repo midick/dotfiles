@@ -1,7 +1,5 @@
 
-call plug#begin('~/.vim/bundle')
-    Plug 'ryicoh/deepl.vim'
-call plug#end()
+Plug 'ryicoh/deepl.vim'
 
 
 " DeepL Config
