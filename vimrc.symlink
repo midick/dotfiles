@@ -261,15 +261,33 @@ endif
 " VimWiki
 Plug 'vimwiki/vimwiki', {'branch': 'dev'}
 Plug 'masukomi/vim-markdown-folding'
+Plug 'jalvesaq/zotcite'
+
+let $ZoteroSQLpath = '~/Zotero/zotero.sqlite'
+
+" integration with zotero-better-bibtex
+function! ZoteroCite()
+  " pick a format based on the filetype (customize at will)
+  let format = 'json'
+  let api_call = 'http://127.0.0.1:23119/better-bibtex/cayw?format='.format
+  let ref = system('curl -s '.shellescape(api_call))
+  let vimwiki_file = system("python3 ~/vimwiki/zotero.py '" . ref ."'")
+  return vimwiki_file
+endfunction
+
+noremap <leader>z "=ZoteroCite()<CR>p
+inoremap <C-z> <C-r>=ZoteroCite()<CR>
+
 
 if has('nvim')
     Plug 'qaiviq/vim-imager'
 endif
 
 let s:image_regexp = '.*[[ *img path="\([^"]\+\)" height=\(\d\+\) *]].*$'
+
+source ~/.config/nvim/deepl.vim
 call plug#end()
 
-" source ~/.config/nvim/deepl.vim
 
 " notes
 nnoremap <silent> <C-N> :NV<CR>
@@ -486,6 +504,10 @@ autocmd FileType vimwiki setlocal foldenable
     let link = a:link
     if link =~# '\(\mwiki\d\+\|diary\|local\|file\):'
         return 0
+    endif
+    if link =~# 'zotero:'
+        silent! exe '!zotero -url '.link
+        return 1
     endif
     if link =~ '\.[a-z]*\>'
         if link !~ '\.\(md\|tex\)\>'
