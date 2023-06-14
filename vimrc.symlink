@@ -271,7 +271,8 @@ function! ZoteroCite()
   let format = 'json'
   let api_call = 'http://127.0.0.1:23119/better-bibtex/cayw?format='.format
   let ref = system('curl -s '.shellescape(api_call))
-  let vimwiki_file = system("python3 ~/vimwiki/zotero.py '" . ref ."'")
+  let newref = substitute(ref, "'", "", "g")
+  let vimwiki_file = system("python3 ~/vimwiki/zotero.py '" . newref ."'")
   return vimwiki_file
 endfunction
 
