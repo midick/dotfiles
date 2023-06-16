@@ -258,5 +258,25 @@ alias black='~/software/miniconda3/envs/neovim/bin/black'
 alias check='cd ~/software/dotfiles/ && git diff ./bashrc.symlink; cd -'
 . "$HOME/.cargo/env"
 
+function photolock(){
+    echo 'bitte lächeln!'
+    ffmpeg -y -f video4linux2 -s 640x480 -i /dev/video0 -ss 0:0:2 -frames 1 $HOME/.softlock.jpg >/dev/null  2>/dev/null
+    $HOME/.config/i3/scripts/lock_screen.sh $HOME/.softlock.jpg
+
+    # trap - SIGINT SIGTSTP SIGABRT
+}
+
+function lock_vim(){
+    if $(test -f ~/.softlock) && [ $(cat ~/.softlock) == "locked" ]; then
+        trap photolock SIGINT
+        trap photolock SIGTSTP
+        trap photolock SIGABRT
+        photolock
+    else
+        /usr/local/bin/nvim $@;
+    fi
+}
+alias vim=lock_vim
+alias nvim=lock_vim
 
 eval `keychain --eval -q`
