@@ -16,17 +16,18 @@ OSD="no"
 SINK_NICKNAMES_PROP=
 VOLUME_STEP=2
 VOLUME_MAX=130
+SINK_ICON="蓼 "
 # shellcheck disable=SC2016
 FORMAT='$VOL_ICON ${VOL_LEVEL}%  $ICON_SINK $SINK_NICKNAME'
 declare -A SINK_NICKNAMES
 SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3.analog-stereo"]="Internal"
 SINK_NICKNAMES["alsa_output.usb-Generic_ThinkPad_Dock_USB_Audio-00.analog-stereo"]="Dock"
 SINK_NICKNAMES["echoCancel_sink"]="Echo-Cancel"
-SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3.hdmi-stereo-extra1"]="HDMI"
+SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp_5__sink"]="HDMI-1"
 SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3.hdmi-stereo-extra2"]="HDMI"
 SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3.hdmi-stereo-extra3"]="HDMI"
 SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3.hdmi-stereo-extra4"]="HDMI"
-SINK_NICKNAMES["bluez_sink.38_18_4C_D3_40_6F.a2dp_sink"]="WH XM3"
+SINK_NICKNAMES["bluez_output.38_18_4C_D3_40_6F.a2dp-sink"]="WH XM3"
 SINK_NICKNAMES["bluez_sink.20_74_CF_BA_FB_1E.a2dp_sink"]="shokz"
 SINK_NICKNAMES["alsa_output.pci-0000_00_1f.3-platform-skl_hda_dsp_generic.HiFi__hw_sofhdadsp_3__sink"]="Laptop"
 declare -a ICONS_VOLUME
@@ -55,15 +56,25 @@ function getCurVol() {
 }
 
 
+
+# Saves the name of the sink passed by parameter into a variable named
+# `sinkName`.
+function getSinkName() {
+    sinkName=$(pactl list sinks short | awk -v sink="$1" '{ if ($1 == sink) {print $2} }')
+}
+
 # Saves the name to be displayed for the sink passed by parameter into a
 # variable called `SINK_NICKNAME`.
 # If a mapping for the sink name exists, that is used. Otherwise, the string
 # "Sink #<index>" is used.
 function getNickname() {
-    unset SINK_NICKNAME
-    SINK_NICKNAME=$(pactl list sinks | grep -A 10 'Sink #'"$1"'' | grep 'Description:' | awk -F : '{print $2; exit}')
+    getSinkName "$1"
+    if [ -n "${SINK_NICKNAMES[$sinkName]}" ]; then
+        nickname="${SINK_NICKNAMES[$sinkName]}"
+    else
+        nickname="Sink #$1"
+    fi
 }
-
 # Saves the status of the sink passed by parameter into a variable named
 # `isMuted`.
 function getIsMuted() {
@@ -265,9 +276,42 @@ function listen() {
 }
 
 
+# function output() {
+#     if ! getCurSink; then
+#         echo "Pipewire not running"
+#         return 1
+#     fi
+#     getCurVol "$curSink"
+#     getIsMuted "$curSink"
+
+#     # Fixed volume icons over max volume
+#     local iconsLen=${#ICONS_VOLUME[@]}
+#     if [ "$iconsLen" -ne 0 ]; then
+#         local volSplit=$((VOLUME_MAX / iconsLen))
+#         for i in $(seq 1 "$iconsLen"); do
+#             if [ $((i * volSplit)) -ge "$VOL_LEVEL" ]; then
+#                 VOL_ICON="${ICONS_VOLUME[$((i-1))]}"
+#                 break
+#             fi
+#         done
+#     else
+#         VOL_ICON=""
+#     fi
+
+#     getNickname "$curSink"
+
+#     # Showing the formatted message
+#     if [ "$isMuted" = "yes" ]; then
+#         # shellcheck disable=SC2034
+#         VOL_ICON=$ICON_MUTED
+#         echo "${COLOR_MUTED}$(eval echo "$FORMAT")${END_COLOR}"
+#     else
+#         eval echo "$FORMAT"
+#     fi
+# }
 function output() {
     if ! getCurSink; then
-        echo "Pipewire not running"
+        echo "PulseAudio not running"
         return 1
     fi
     getCurVol "$curSink"
@@ -279,25 +323,24 @@ function output() {
         local volSplit=$((VOLUME_MAX / iconsLen))
         for i in $(seq 1 "$iconsLen"); do
             if [ $((i * volSplit)) -ge "$VOL_LEVEL" ]; then
-                VOL_ICON="${ICONS_VOLUME[$((i-1))]}"
+                volIcon="${ICONS_VOLUME[$((i-1))]}"
                 break
             fi
         done
     else
-        VOL_ICON=""
+        volIcon=""
     fi
 
     getNickname "$curSink"
 
     # Showing the formatted message
     if [ "$isMuted" = "yes" ]; then
-        # shellcheck disable=SC2034
-        VOL_ICON=$ICON_MUTED
-        echo "${COLOR_MUTED}$(eval echo "$FORMAT")${END_COLOR}"
+        echo "${COLOR_MUTED}${ICON_MUTED}${VOL_LEVEL}%  ${SINK_ICON}${nickname}${END_COLOR}"
     else
-        eval echo "$FORMAT"
+        echo "${volIcon}${VOL_LEVEL}%  ${SINK_ICON}${nickname}"
     fi
 }
+
 
 
 function usage() {

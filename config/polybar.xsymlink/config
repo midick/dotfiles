@@ -80,7 +80,7 @@ module-margin-right = 1
 
 font-0 = "FiraCode Nerd Font:style=Retina:size=10;2"
 
-modules-left = i3 dunst mail newsboat spotify
+modules-left = i3 dunst softlock mail newsboat focus spotify
 modules-center = date
 modules-right = pipewire-control cpu-info temperature memory-info network_usage battery powermenu
 
@@ -120,6 +120,32 @@ tail = true
 
 hook-0 = echo "%{A1:dunstctl set-paused true && polybar-msg hook dunst 2:} %{A}" &
 hook-1 = echo "%{A1:dunstctl set-paused false && polybar-msg hook dunst 1:} %{A}" &
+
+[module/softlock]
+type = custom/ipc
+initial = 1
+format-foreground = ${colors.base05}
+
+hook-1 = echo "%{A1:echo unlocked > ~/.softlock && polybar-msg hook softlock 1:} %{A}" &
+hook-0 = echo "%{A1:echo locked > ~/.softlock && polybar-msg hook softlock 2:} %{A}" &
+
+
+[module/focus]
+type = custom/ipc
+format-foreground = ${colors.base05}
+initial = 1
+hook-0 = echo "%{A1:~/.config/polybar/scripts/focus.sh hide && dunstctl set-paused true && polybar-msg hook focus 2:} %{A}" &
+hook-1 = echo "%{A1:~/.config/polybar/scripts/focus.sh show && dunstctl set-paused false && polybar-msg hook focus 1:} %{A}" &
+
+[module/demo]
+type = custom/ipc
+hook-0 = echo foobar
+hook-1 = date +%s
+hook-2 = whoami && polybar-msg hook demo 2
+initial = 1
+click-left = "#demo.hook.0"
+click-right = "#demo.hook.1"
+double-click-left = "#demo.hook.2"
 
 [module/xwindow]
 type = internal/xwindow
@@ -348,7 +374,7 @@ label = %date% %time%
 
 [module/newsboat]
 type=custom/script
-exec=echo " 🛥  $(newsboat -x print-unread | awk '!/^0/ {print $1}' > ~/.newsboatoutput; cat ~/.newsboatoutput)"
+exec=echo "  $(newsboat -x print-unread | awk '!/^0/ {print $1}' > ~/.newsboatoutput; cat ~/.newsboatoutput)"
 
 
 [module/pomobar]
@@ -359,6 +385,17 @@ initial=1
 click-left = ~/software/pomobar/pomobar.py --action=new &
 click-middle= ~/software/pomobar/pomobar.py --action=kill &
 click-right = ~/software/pomobar/pomobar.py --action=break &
+
+
+[module/pipewire-simple]
+type = custom/script
+exec = ~/.config/polybar/scripts/pipewire-simple.sh
+interval = .1
+click-right = exec pavucontrol &
+click-left = ~/.config/polybar/scripts/pipewire-simple.sh --mute &
+scroll-up = ~/.config/polybar/scripts/pipewire-simple.sh --up &
+scroll-down = ~/.config/polybar/scripts/pipewire-simple.sh --down &
+label-foreground = ${colors.blue}
 
 [module/pipewire-control]
 type = custom/script
