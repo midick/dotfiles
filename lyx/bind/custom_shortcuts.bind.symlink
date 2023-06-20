@@ -1,0 +1,18 @@
+# include vanilla config
+\bind_file "cua"
+
+
+Format 4
+
+\unbind "C-n" "buffer-new"
+\unbind "C-a" "inset-select-all"
+\unbind "C-r" "buffer-view"
+\unbind "C-S-r" "buffer-update"
+\unbind "C-u" "font-underline"
+
+\bind "C-n" "note-insert"
+\bind "C-a" "change-accept"
+\bind "C-r" "change-reject"
+\bind "C-S-c" "citation-insert"
+\bind "C-S-r" "dialog-show-new-inset  ref"
+\bind "C-u" "buffer-update"
