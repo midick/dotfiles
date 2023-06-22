@@ -1,0 +1,102 @@
+Host hambach
+    Hostname hambach.inm.kfa-juelich.de
+    ProxyJump login
+    User dick
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/hambach
+    ForwardAgent yes
+
+Host hambach.inm.kfa-juelich.de
+    Hostname hambach.inm.kfa-juelich.de
+    ProxyJump login
+    User dick
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/hambach
+    ForwardAgent yes
+
+Host login
+    Hostname login.inm.kfa-juelich.de
+    User dick
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/hambach
+    ForwardAgent yes
+
+Host ifflinux
+    Hostname ifflinux.iff.kfa-juelich.de
+    User mdick
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/hambach
+    ForwardAgent yes
+
+Host FireCormoran
+    HostName iff1742
+    ProxyJump ifflinux
+    IdentityFile ~/.ssh/iff1742
+    ServerAliveInterval 60
+    Port 22
+    User mdick
+
+Host RWTH
+    HostName login18-1.hpc.itc.rwth-aachen.de
+    User md960992
+
+Host gitty
+    Hostname gitty.inm.kfa-juelich.de
+    User git
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/gitty
+
+Host github
+    Hostname github.com
+    User git
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/github
+
+Host gitlab
+    Hostname git.rwth-aachen.de
+    User git
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/gitlab
+
+Host jureca06
+    Hostname jureca06.fz-juelich.de
+    User dick3
+    ProxyJump ifflinux
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/jureca
+    ForwardAgent yes
+
+Host jureca
+    Hostname jureca.fz-juelich.de
+    User dick3
+    ProxyJump ifflinux
+    IdentitiesOnly yes
+    IdentityFile ~/.ssh/jureca
+    ForwardAgent yes
+
+Host judac
+    Hostname judac.fz-juelich.de
+    User dick3
+    IdentitiesOnly yes
+    ProxyJump login
+    IdentityFile ~/.ssh/jureca
+    ForwardAgent yes
+
+Host rM
+    Hostname 192.168.0.66
+    User root
+    # Pass WyKa6eD3Qh
+
+Host coffee-roulette
+    HostName coffee-roulette
+    User barista
+    ForwardAgent yes
+    ProxyJump login
+
+Host DGX
+    HostName 134.94.166.142
+    User mdick
+    ForwardAgent yes
+    IdentityFile ~/.ssh/DGX
+    ProxyJump login
+
