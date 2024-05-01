@@ -4,6 +4,13 @@ if [[ $(pgrep -u $UID -x i3lock) ]] ; then
   exit
 fi
 
+if [ $# -eq 0 ]
+  then
+      image="$HOME/software/dotfiles/wallpapers/fish.jpg"
+  else
+      image=$1
+fi
+
 BLANK='#00000000'
 CLEAR='#262626ff'
 DEFAULT='#85ad85ff'
@@ -31,6 +38,6 @@ ARGS="--nofork\
       --bar-color=$CLEAR"
 
 ~/.config/i3/scripts/notifications.sh off
-~/.config/i3/scripts/i3lock-multimonitor/lock  -i "$HOME/software/dotfiles/wallpapers/fish.jpg" -a "$ARGS"
+~/.config/i3/scripts/i3lock-multimonitor/lock  -i "$image" -a "$ARGS"
 ~/.config/i3/scripts/notifications.sh on
 
