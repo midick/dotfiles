@@ -129,11 +129,15 @@ GIT_PROMPT_SHOW_UPSTREAM=1 # show upstream tracking branch
 GIT_PROMPT_THEME=Custom
 source ~/.bash-git-prompt/gitprompt.sh
 
-# add Zotero to path
+# add arduino to path
 export PATH="$HOME/software/arduino/bin:$PATH"
 
 # add Zotero to path
 export PATH="$HOME/software/Zotero:$PATH"
+
+# add deno to path
+export DENO_INSTALL="/home/dick/.deno"
+export PATH="$DENO_INSTALL/bin:$PATH"
 
 # Autojump
 # if installed for the current user only
@@ -179,7 +183,7 @@ if tmux -V > /dev/null 2>&1 &&  ! [[ -n "$TMUX" ]]; then
     notepad_session_name=notepad
     terminal_session_name=${HOSTNAME/./·}
     if [[ -n $notepad ]]; then
-        tm $notepad_session_name \; send-keys 'cd Space ~/vimwiki Space && Space nvim Space -c Space VimwikiMakeDiaryNote' C-m \; new-window \; send-keys 'cd Space ~/personalwiki Space && Space nvim Space -c Space 2VimwikiMakeDiaryNote' C-m \;
+        tm $notepad_session_name \; send-keys 'cd Space ~/vimwiki Space && Space nvim Space -c Space VimwikiMakeDiaryNote' C-m\;
     else
         if [[ -n $scratchpad ]]; then
             tm $scratchpad_session_name
@@ -275,8 +279,6 @@ function lock_vim(){
         /usr/local/bin/nvim $@;
     fi
 }
-alias vim=lock_vim
-alias nvim=lock_vim
 
 eval `keychain --eval -q`
 

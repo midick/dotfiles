@@ -25,7 +25,6 @@ focus_follows_mouse no
 ###########################
 #  Workspace Assignments  #
 ###########################
-assign [class="Spotify"] → 1
 assign [class="^Zotero$" instance="^Navigator$"] → 2
 assign [class="Signal"] → 3
 assign [class="TelegramDesktop"] → 3
@@ -57,6 +56,7 @@ exec_always sleep 3; ~/.config/i3/scripts/gnome-keyring.sh
 exec_always sleep 3; ~/.config/i3/scripts/launch_polybar.sh
 exec --no-startup-id sleep 1; killall -q /usr/lib/gnome-settings-daemon/gsd-print-notifications
 exec --no-startup-id sleep 2; dunst -config ~/.config/dunst/dunstrc
+exec --no-startup-id sleep 2; remind -z -k'notify-send --app-name=remind "reminder" %s &' ~/.reminders &
 exec --no-startup-id sleep 1; nitrogen --restore
 exec --no-startup-id sleep 2; contour --session scratchpad --profile scratchpad
 exec --no-startup-id sleep 2; contour --session notepad --profile notepad
@@ -69,7 +69,6 @@ exec --no-startup-id sleep 1; telegram-desktop
 exec --no-startup-id sleep 1; signal-desktop
 # exec --no-startup-id sleep 1; slack
 exec --no-startup-id sleep 1; flatpak run com.mattermost.Desktop
-exec --no-startup-id sleep 1; flatpak run com.spotify.Client
 # exec --no-startup-id sleep 1; dropbox start
 # exec --no-startup-id sleep 1; keepassxc
 exec --no-startup-id sleep 2; ~/.config/i3/scripts/denoise_mic.sh
@@ -266,7 +265,8 @@ set $black #242424
 
 # start flavours
 ## Base16 Gruvbox dark, pale
-# Author: Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
+# Scheme author: Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
+# Template author: Tinted Theming (https://github.com/tinted-theming)
 #
 # You can use these variables anywhere in the i3 configuration file.
 

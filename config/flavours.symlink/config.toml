@@ -89,3 +89,9 @@ rewrite = false
 start = "# start flavours"
 end = "# end flavours"
 
+[[item]]
+file = "~/.config/btop/themes/custom"
+template = "btop"
+rewrite=true
+
+

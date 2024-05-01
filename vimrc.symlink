@@ -150,7 +150,7 @@ call plug#begin('~/.vim/bundle')
 Plug 'rkitover/vimpager'
 
 " Visuals
-" Plug 'chriskempson/base16-vim'
+Plug 'chriskempson/base16-vim'
 Plug 'chrisbra/colorizer'
 
 
@@ -201,6 +201,9 @@ Plug 'tpope/vim-abolish'
 
 " Mail
 Plug 'adborden/vim-notmuch-address'
+
+" Calendar
+Plug 'scy/vim-remind'
 
 " Snippets
 if has("python3")
@@ -276,23 +279,29 @@ function! ZoteroCite()
   return vimwiki_file
 endfunction
 
+noremap <leader>wt <Nop>
+noremap <leader>w<leader>t <Nop>
+noremap <leader>wi <Nop>
+
 noremap <leader>z "=ZoteroCite()<CR>p
 inoremap <C-z> <C-r>=ZoteroCite()<CR>
 
 
 if has('nvim')
-    Plug 'qaiviq/vim-imager'
+    " Plug 'qaiviq/vim-imager'
+    Plug '3rd/image.nvim'
 endif
 
-let s:image_regexp = '.*[[ *img path="\([^"]\+\)" height=\(\d\+\) *]].*$'
+" let s:image_regexp = '.*\[\[ *img path="\([^"]\+\)" height=\(\d\+\) *\]\].*$'
 
 source ~/.config/nvim/deepl.vim
 call plug#end()
 
+source ~/.config/base16.vim
 
 " notes
 nnoremap <silent> <C-N> :NV<CR>
-let g:nv_search_paths = ['~/Documents/Notes']
+let g:nv_search_paths = ['~/vimwiki/', '~/personalwiki/']
 let g:mkdx#settings = { 'map': { 'prefix': 'm' } }
 
 " tex
@@ -348,12 +357,12 @@ let g:netrw_fastbrowse = 0
 let g:tslime_always_current_session = 1
 let g:tslime_always_current_window = 1
 " rerun last command
-nmap tt :call Send_keys_to_Tmux("C-[ C-p Enter")<CR>
+nmap <leader>T :call Send_keys_to_Tmux("C-[ C-p Enter")<CR>
 " send keyboard-interrupt
-nnoremap tc :call Send_keys_to_Tmux("C-c")<CR>
-vmap ts <Plug>SendSelectionToTmux
-nmap ts <Plug>NormalModeSendToTmux
-nmap tr <Plug>SetTmuxVars
+nnoremap <leader>tc :call Send_keys_to_Tmux("C-c")<CR>
+vmap <leader>ts <Plug>SendSelectionToTmux
+nmap <leader>ts <Plug>NormalModeSendToTmux
+nmap <leader>tr <Plug>SetTmuxVars
 
 " vim-test
 let g:test#strategy = "tslime"
@@ -384,11 +393,6 @@ noremap <silent> <leader>]  :bn<CR>
 noremap <silent> <leader>[  :bp<CR>
 noremap <silent> <leader>bo :BufOnly<CR>
 noremap <silent> <leader>`  <C-^>
-
-" Tab Navigation
-nnoremap <leader>t :tabedit %<CR>
-nnoremap <leader>T :tabclose<CR>
-nnoremap <S-Tab> :tabprevious<CR>
 
 " Split Navigation
 noremap <leader>- :split<CR>
@@ -486,11 +490,6 @@ let g:vimwiki_list = [
         \ 'auto_tags': 1,
     \},
     \{
-        \ 'path': '~/personalwiki',
-        \ 'syntax': 'markdown',
-        \ 'ext': '.md',
-    \},
-    \{
         \ 'path': '~/Documents/PnP/Bergrab/journal-wiki/',
         \ 'syntax': 'markdown',
         \ 'ext': '.md',
@@ -503,24 +502,25 @@ let g:vimwiki_list = [
 
 let g:vimwiki_folding = 'expr'
 autocmd FileType vimwiki setlocal foldenable
+let g:markdown_fenced_languages = ['python', 'bash=sh']
 
-  function! VimwikiLinkHandler(link)
-    let link = a:link
-    if link =~# '\(\mwiki\d\+\|diary\|local\|file\):'
-        return 0
-    endif
-    if link =~# 'zotero:'
-        silent! exe '!zotero -url '.link
-        return 1
-    endif
-    if link =~ '\.[a-z]*\>'
-        if link !~ '\.\(md\|tex\)\>'
-            call vimwiki#base#open_link('e:', 'file:' . link)
-            return 1
-        endif
-    endif
-    return 0
-  endfunction
+  " function! VimwikiLinkHandler(link)
+  "   let link = a:link
+  "   if link =~# '\(\mwiki\d\+\|diary\|local\|file\):'
+  "       return 0
+  "   endif
+  "   if link =~# 'zotero:'
+  "       silent! exe '!zotero -url '.link
+  "       return 1
+  "   endif
+  "   if link =~ '\.[a-z]*\>'
+  "       if link !~ '\.\(md\|tex\)\>'
+  "           call vimwiki#base#open_link('e:', 'file:' . link)
+  "           return 1
+  "       endif
+  "   endif
+  "   return 0
+  " endfunction
 
 let g:zettel_options = [{}, {"front_matter" : [["tags", ""], ["type","note"]], "template" :  "~/personalwiki/zettel_template.tpl"}, {}, {}]
 nnoremap <leader>zn :ZettelNew<space>
@@ -536,6 +536,8 @@ au BufNewFile ~/vimwiki/diary/*.md :silent 0r !~/vimwiki/diary/generate_vimwiki_
 au BufNewFile ~/personalwiki/diary/*.md :silent 0r !~/personalwiki/diary/generate_vimwiki_diary_template.py '%'
 
 let g:imager#filetypes = ['.md']
+
+lua require("image").setup({ backend = "ueberzug"})
 
 " Neural config
 let g:neural = {
