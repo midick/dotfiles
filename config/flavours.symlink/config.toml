@@ -51,6 +51,7 @@ hook = "killall polybar && sleep 1 && ~/software/dotfiles/config/i3.xsymlink/scr
 [[item]]
 file = "~/.tmux.conf"
 template = "tmux"
+subtemplate = "base16"
 hook = "tmux source-file ~/.tmux.conf"
 
 
@@ -78,7 +79,7 @@ rewrite = true
 [[item]]
 file = "~/.config/qt5ct/colors/customqt.conf"
 template = "qt5ct"
-subtemplete = "default"
+subtemplate = "default"
 rewrite = true
 
 [[item]]
